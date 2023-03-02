@@ -8,6 +8,8 @@ CIDR -IPV4 subnet Masks
 /26 Mask = 2^6 IPs =64
 /25 Mask = 2^7 IPs =128
 /24 Mask = 2^8 IPs =256
+/23 Mask = 2^9 IPs= 
+
 /16 Mask = 2^16 IPs=65,536
 
 
@@ -22,5 +24,6 @@ CIDR -IPV4 subnet Masks
 E.g 192.168.32.1/32 ?
 192.168.32.1
 
-192.168.10.0/24 ?
-192.168.10.0 - 192.168.10.255 (which means we can change the last IP in the range of 0-255)
+192.168.0.0/24 ?
+192.168.0.0 - 192.168.10.255 (which means we can change the last IP in the range of 0-255)
+192.168.0.0
