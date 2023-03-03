@@ -1,3 +1,13 @@
+IPV4 addresses are 32 bits numbers; i.e 4 octets with each octet having 8 bits.
+Each IP address is divided between network ID and host ID how we divide it is derived from network classes.
+
+|Class|   Range      |  Length of N/W    |  # of N/W   | # of hosts| Reserved bits                 |
+|A    |1-126.a.b.c   |   8               | 126         | 16 million|  first bit reserved is 0      |
+|B    |128-191.a.b.c |  16               | 16,384      | 65,534    | first 2 bits reserved are 10  |
+|C    |192-223.a.b.c  | 24               |  2 Million  |  254      | first 2 bits reserved are 110 |
+
+There are two mores classes D- Multicast and E - Experimental R&D
+
 CIDR -IPV4 subnet Masks
 /32 Mask = 2^0 IPs =1
 /31 Mask = 2^1 IPs =2
