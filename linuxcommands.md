@@ -7,6 +7,8 @@ mkdir <dirname>
 ###   To make your terminal font bigger use ctrl shift +
   
   #### After making a directory to create a file you can either use touch command or nano or vm 
+  
+  vm editor: vm <filename> then press i to enter insert mode and :wq to save and exit and :q! to exit without saving your content.
  
   
   
@@ -33,7 +35,3 @@ mkdir <dirname>
 
 
 
-
-
-^G Help      ^O Write Out ^W Where Is  ^K Cut       ^T Execute
-^X Exit      ^R Read File ^\ Replace   ^U Paste     ^J Justify
