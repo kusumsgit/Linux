@@ -9,6 +9,8 @@ mkdir <dirname>
   #### After making a directory to create a file you can either use touch command or nano or vm 
   
   vm editor: vm <filename> then press i to enter insert mode and :wq to save and exit and :q! to exit without saving your content.
+  nano <filename> then ctrl x and write y and enter to exit out from nano.
+  
  
   
   
