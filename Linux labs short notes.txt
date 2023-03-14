@@ -1,0 +1,574 @@
+Linux Labs:
+
+Lab 1:
+Learned to SSH to Amazon ec2 instance (by using putty and through terminal) 
+learned to use man command; in powershell, terminal, wsl we can use man <command name>
+but in gitbash we will use <command name> --help
+
+Putty:
+
+1. download ppk file
+2. paste the public ip
+2. go to connections -> expand ssh -> Auth -> credentials
+
+For Mac/gitbash
+1. Download pem file (here the name was labuser.pem)
+2. cd ~/downloads
+3. chmod 400 labuser.pem (give read permission to the pem file)
+4. ssh -i labuser.pem ec2-user@<public ip>
+5. Doing above steps will connect us to Amazon Machine image and it has many options such as Amazon linux , windows so we can use any
+
+Lab 2:
+
+whoami: display your current username
+Hostname -s: Display shortened version of computer’s host name.
+
+uptime -p:Display uptime of the system in an easily readable format.
+who -H -a:Display info about the users who are logged in and some additional information.
+
+TZ=America/New_York date OR TZ=America/Los_Angeles date: These commands identify the date and time of alternate locations in the world.
+
+cal -s and cal -m:shows calnedar from sunday to saturday/ monday to sunday
+
+id ec2-user: gives the user id, group id, and groups that the user is a part of.
+
+history: this command gives the history of all commands that were used 
+ 
+
+Lab 3: Users and groups
+Create new users with a default password
+Create groups and assign the appropriate users
+Log in as different users
+
+Task1:Connect with Amazon Linux EC2 instance
+
+Task 2 : Create Users
+ 
+sudo useradd <userID> (this step will create user1 let's name him Alex)
+sudo passwd <user ID> (you need to add password and have to do it twice)
+
+similarly add all the users and their password
+
+To validate that users have been created, enter sudo cat /etc/passwd | cut -d: -f1 and press Enter to look at the contents of the /etc/passwd file.
+
+Task 3: Create Groups
+
+sudo groupadd Sales
+sudo groupadd HR
+To verify that the group was added, enter cat /etc/group 
+
+To add the user Alex to the Sales group enter sudo usermod -a -G Sales Alex into the terminal and press Enter.
+
+To verify that the user was added, enter cat /etc/group and press Enter
+
+Use the sudo usermod -a -G <Group Name> <User ID> command to add the remaining users to the appropriate groups
+
+Add ec2-user to all groups.
+
+To check the group memberships, enter sudo cat /etc/group into the terminal and press Enter.
+
+Task 4
+
+Log in using the new user
+
+1. su <userid>
+2. then type password twice and now you are logged in as this user
+3. now ec2-user shows you are in ec2-user/home directory and if you command touch file.txt or sudo touch file.txt it doesn't work because
+this user doesn't have permission and this will be logged in the var log so if you will do the following command
+4. sudo cat /var/log/secure  : you can see the user has tried to execute file.txt but was as he was not in sudoers so it didn't execute.
+
+
+Lab 4: Editing files
+
+In this lab I learned about vim editor and nano editor to edit files.
+
+
+
+Lab 5: Working with files
+
+Create a backup file of an entire folder structure using tar
+Log the creation of the backup in a file with the date, time, and file name of the backup file
+Transfer the backup file to another folder
+
+
+Task 1: connect to ec2 instance
+Task 2: create  a backup for Company A folder (home/ec2-user/ -> Company A -> HR, MGMT, Employess, Finance )
+
+
+1. go to home/ec2-user or the directory where the folder is saved for which you want to create a backup
+2. once you are in the directory check if the folder is there by doing ls -R companyA
+3. To back up the entire CompanyA folder run this command: tar -csvpzf backup.CompanyA.tar.gz CompanyA
+4. Verify by doing ls the output will look like: [ec2-user@ ~]$ CompanyA backup.CompanyA.tar.gz
+
+
+Task 3: Log the backup
+In this task, you create a file for logging the date, time, and file name of the backup tar file that you created. 
+This file indicates when you created backups and could be useful to avoid creating unnecessary backups in the future.
+
+1. go inside the companyA folder by using cd /home/ec2-user/CompanyA
+2. create an empty backup file named backups.csv : touch SharedFolders/backups.csv
+3. To add the date, time, and file name to the backups.csv file, enter the following command and press Enter.
+echo "25 Aug 25 2021, 16:59, backup.CompanyA.tar.gz" | sudo tee SharedFolders/backups.csv
+(tee command to write information both in the terminal and in a file.  The | redirector redirects the output of the echo command to the second command, tee, 
+which writes it to both the terminal and the SharedFolders/backups file.)
+4. to see the content of the file do : cat SharedFolders/backups.csv
+
+Task 4 : Move the backup file
+
+In this task, you transfer the backup file to the IA folder. In a real-life scenario, you could follow these step to make the file accessible to another user or 
+team that does not have access to the folder where you created the backup file.
+
+1. to make sure you are in company A folder do pwd : output will be home/ec2-user/CompanyA
+2. To transfer the backup file to the IA team computer, enter the following command and press Enter.
+mv ../backup.CompanyA.tar.gz IA/   
+3. ls . IA (this command lists the content of both the current folder, CompanyA, and the IA folder.
+ The b file is not in the current folder anymore and was moved to the IA folder.)
+
+ 
+Lab 6: Managing file permissions
+
+
+Change all folder and file permissions to match the appropriate group structure
+Modify file permissions for a user
+Update the company folder structure
+
+task 1: Connect to ec2 instance
+task 2: Change file and folder ownership:
+1.In this exercise, you will change the following ownership:
+
+companyA folder ownership to the CEO and group ownership to Personnel
+HR folder ownership to the HR manager and group ownership to HR
+Finance folder ownership to the finance manager and group ownership to Finance
+To validate that you are in the /home/ec2-user/companyA folder, enter pwd and press Enter.
+
+If you are not in this folder, enter cd companyA and press Enter. 
+
+To change the ownership of the companyA folder structure to the CEO mjackson and the group ownership to Personnel, enter sudo chown -R mjackson:Personnel /home/ec2-user/companyA and press Enter.
+
+To change the ownership of the HR folder to the HR manager ljuan, enter sudo chown -R ljuan:HR HR and press Enter.
+
+To change the ownership of the HR/Finance folder to the finance manager, enter sudo chown -R mmajor:Finance HR/Finance and press Enter.
+
+To validate your work by using the recursive feature of the ls command, enter ls -laR and press Enter.
+
+
+Task 3: Change permission modes
+In this task, you change permission modes. You create and change permissions using the chomd command.
+
+Recall that the chmod command changes the permissions of your files. There are two modes: symbolic and absolute. 
+Symbolic mode uses both letters and symbols to manipulate permissions, and absolute mode uses only numbers to represent permissions.  
+
+To validate that you are in the /home/ec2-uer/companyA folder, enter pwd and press Enter.
+
+Use vim to create a file called symbolic_mode_file. To create this file, enter sudo vi symbolic_mode_file and press Enter.
+
+To save and close the file, press ESC. Then enter :wq and press Enter.
+
+To use the symbolic mode for chmod to change the file permissions, enter sudo chmod g+w symbolic_mode_file and press Enter.
+You just gave the group owner write permissions to symbolic_mode_file.
+
+Use vim to create a file called absolute_mode_file. To create this file, enter sudo vi absolute_mode_file and press Enter.
+
+To save and close the file, press ESC. Then enter :wq and press Enter.
+
+To use the absolute mode for chmod to change the file permissions, enter sudo chmod 764 absolute_mode_file and press Enter.
+
+764 means that the user has read, write, and execute permissions on the absolute_mode_file.
+
+To confirm this information, enter the ls -l command and press Enter. You should see the two files that you created with the 
+correlating read, write, and execute permissions.
+
+
+Task 4: Assign permissions
+In this exercise, you assign the appropriate permissions to the Shipping and Sales folders.
+
+To validate that you are in the /home/ec2-user/companyA folder, enter pwd and press Enter.
+
+To change the ownership of the Shipping folder to eowusu, the current shipping manager, and the group ownership to Shipping, 
+enter sudo chown -R eowusu:Shipping Shipping and press Enter.
+
+To change the ownership of the Sales folder to nwolf, the current sales manager, and the group ownership to Sales, 
+enter sudo chown -R nwolf:Sales Sales and press Enter.
+
+To validate your work, use the ls command on the folders that you just created. 
+
+To validate the changes to the Shipping folder, enter ls -laR Shipping and press Enter. 
+To validate the changes to the Sales folder, enter and ls -laR Sales and press Enter.
+
+
+
+Lab 7: Working with commands
+
+Use the tee command to direct output to a file
+
+Tee command writes the output taken from other command in terminal as well in a file that it cretes. e.g
+hostname | tee file1.txt
+
+the above command will print your hostname in your terminal as well as create a file name file1.txt and print the hostname there as well.
+
+
+Use the sort command to reorganize the contents of a .csv file
+
+Sort command is used to re-order the list in a file.
+
+
+
+Use the cut command to edit the contents of a file
+
+cut -d ',' -f 1 cities.csv 
+this command cuts a delimited and f1 or f2 or f3 means fields after that delimiter 
+e.g if I have a file cities .csv which has following info:
+
+Dallas, Texas
+Seattle, Washington
+Los Angeles, California
+Atlanta, Georgia
+New York, New York
+
+And I will do this command $ cut -d ',' -f 1 cities.csv then the output will be as follows:
+Dallas
+Seattle
+Los Angeles
+Atlanta
+New York
+
+
+
+Use the sed command
+
+it is used to replace a text or delimiter in a file content or in name of file etc.
+e.g: I have a file test.csv which has the following info:
+Store, Paris
+Factory, Tokyo
+Store, Russia
+
+I can use sed command to replace Russia with Tokyo
+sed 's/Russia/Tokyo/' test.csv
+
+and now in place of Russia I will see Tokyo. Remember it is case sensitive.
+
+Use the pipe operator
+
+we use it to send the output to other command 
+
+e.g if we have the following text in a file test.csv:
+
+London, Paris, tokyo, japan and we do this command: find | grep Paris test.csv
+
+the output will be : Paris
+
+
+Lab 8: Managing Processes
+
+Create a new log file for process listings
+Use the top command
+Establish a repetitive task that runs your previous auditing commands once a day
+
+Task 1: connect to ec2 instance
+Task 2: Create list of Processes
+To validate that you are in the /home/ec2-user/companyA folder, enter pwd and press Enter. 
+
+If you are not in this folder, enter cd companyA and press Enter.
+
+View all processes running on the machine and filter out the word root by typing sudo ps -aux | grep -v root | sudo tee SharedFolders/processes.csv and pressing ENTER.
+
+Validate your work by typing cat SharedFolders/processes.csv and pressing ENTER.
+
+Task 3:
+List the processes using the top command to see the running, sleep, zombie and active processes.
+and top- hv to see the usage and version information.
+
+Task 4:
+Create a Cron Job
+cron is a command that runs a task on a regular basis at a specified time. 
+This command maintains the list of tasks to run in a crontab file, which you create in this task
+
+To validate that you are in the /home/ec2-user/companyA folder, enter pwd and press Enter.
+
+To create a cron job that creates the audit file with ##### to cover all .csv files, enter sudo crontab -e and press Enter to enter the default text editor.
+
+Press i to enter insert mode, and press Enter.
+
+For the first line, enter SHELL=/bin/bash and press the Space bar.
+
+For the second line, enter PATH=/usr/bin:/bin:/usr/local/bin and press Enter.
+
+For the third line, enter MAILTO=root and press Enter.
+
+For the last line, enter 0 * * * * ls -la $(find .) | sed -e 's/..csv/#####.csv/g' > /home/ec2-user/companyA/SharedFolders/filteredAudit.csv
+
+To save and close the file, press ESC. Then enter :wq and press Enter.
+To validate your work, enter sudo crontab -l and press Enter. Inspect the crontab file to ensure that it matches the text exactly, as the following output shows:
+
+
+Lab 9: Managing serives monitoring:
+
+Check the status of the service httpd to ensure that it is running, and that you can make an http connection to the local host IP address
+
+You will also learn how to monitor your Amazon Linux 2 EC2 instance 
+
+Using the Linux top command
+Using AWS CloudWatch
+
+
+Task 1: connec to ec2 instance
+Task 2: check the status of the httpd service
+sudo systemctl status httpd.service
+sudo systemctl start httpd.service
+Now that the httpd is running, let's check it works correctly. 
+Open a new tab on your browser and enter : http://<publicip> . Replace <publicip> with the public ip that you retrieved at the beginning of the course.
+you will see the apache test page
+Task 3: monitoring a linux ec2 instance
+
+run top command and then run the following command
+./stress.sh & top
+
+then by going in AWS console and going to AWS cloudwatch and choosing ec2 instance 
+You can see that by default the EC2 CloudWatch dashboard displays several metrics such as the CPU utilization, Disk reads and writes.
+
+
+Lab 9: bash shell
+Create and work with an alias to backup a complete folder 
+Work the PATH variable and add a new folder to it
+
+Task 1: connect to ec2 instance
+Task 2: Create an alias for a backup operation
+To create an alias called backup, enter the following command, and press Enter.
+
+alias backup='tar -cvzf '
+Remember that tar is a command that you use to create or extract an archive that contains files and folders. 
+
+-f archives the files (tar can also archive devices).
+-v is the everbose option to display what is put into the archive.
+-z compresses the archive into the .gzip format.
+tar -cf would work perfectly but would not display what is inside the archive and would not compress it.
+To use the backup alias to back up the CompanyA folder, enter the following command, and press Enter.
+
+backup backup_companyA.tar.gz CompanyA
+
+Lab 10 : Bash shell scripts
+
+Create a bash script that will automate the backup of a folder
+
+Task 1: connect to Ec2 instance
+Task 2: wrtie a shell script
+touch backup.sh
+sudo chmod 755 backup.sh
+vi backup.sh
+enter i for insert and paste the following script
+
+#!/bin/bash                                                                                                           
+DAY="$(date +%Y_%m_%d)"                                                       
+BACKUP="/home/$USER/backups/$DAY-backup-CompanyA.tar.gz"                             
+tar -csvpzf $BACKUP /home/$USER/CompanyA  
+
+save it using :wq
+
+run this script using ./backup.sh or bash backup.sh
+ls backups/
+
+Lab 10:
+
+Software management
+
+Update the Linux machine using the package manager
+Roll back or downgrade a previously updated package through the package manager
+Install the AWS Command Line Interface (AWS CLI)
+
+Task 1: connect to Ec2 instance
+Task 2: update your linux machine
+In this task, you use the yum package manager to update and upgrade the machine, including relevant security packages.
+
+Note
+You may have to use sudo to complete this task if you are not root.
+
+To validate that you are in the companyA home folder, enter pwd and press Enter.
+
+If you are not in this folder, enter cd companyA and press Enter.
+
+To query repositories for available updates, enter sudo yum -y check-update and press Enter.
+
+To apply security-related updates, enter sudo yum update --security and press Enter.
+
+To update packages, enter sudo yum -y upgrade and press Enter. (Your instance may already be up to date)
+
+To view the install of httpd and view the history of updates, enter sudo yum install httpd -y and press Enter.
+
+Task 3: Roll back a package
+In this task, you downgrade a package that has been updated through the yum package manager by doing the following:
+
+Using the yum history to list what has been installed and updated
+Rolling back to the most recent updates in the history list
+Note
+
+You may have to use sudo to complete this task if you are not root.
+
+To validate that you are in the companyA home folder, enter pwd and press Enter.
+To view the history of updates, enter sudo yum history list and press Enter. 
+In the output, under the ID column, make a note of the number for EC2 ...  to use in the following steps in this task.
+
+[ec2-user@ companyA]$ sudo yum history list
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+ID  | Login user            | Date and time     | Action(s) | Altered
+------------------------------------------------------------
+2   | EC2 ... <ec2-user>    | <date and time>   | Install   | 9
+1   | System <unset>        | <date and time>   | I, O, U   | 18
+history list
+To view the most recent set of updates, enter sudo yum history info <#> and replace <#> with the history list number from the previous step. 
+Once you have adjusted this command with this number, press Enter.
+
+[ec2-user@ companyA]$ sudo yum history info <#>
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+Transaction ID  : <#>
+Begin time      : <date and time>
+Begin rpmdb     : 
+End time        : <time>
+End rpmdb       :
+User            : EC2 Default User <ec2-user>
+Return-Code     : Success
+Command Line    : install httpd -y
+Enter sudo yum -y history undo <#> and replace <#> with the history list number from the previous steps. 
+Once you have adjusted this command with this number, press Enter.
+
+
+[ec2-user@ companyA]$ sudo yum -y history undo <#>
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+Undoing transaction <#>, from <date>
+<list of actions now shown as Dep-Install>
+ 
+
+Task 4: Install the AWS CLI on Red Hat Linux
+In this task, you install the AWS CLI on Amazon Elastic Compute Cloud (Amazon EC2) Linux:
+
+Ensure that packages are installed and updated
+Install the AWS CLI
+Note
+
+You may have to use sudo to complete this task if you are not root.
+
+To verify that Python is installed, enter the following command and press Enter:
+
+python3 --version
+The output indicates the version of Python that is installed.
+
+Note
+
+To install the AWS CLI, you must have Python 2 version 2.6.5 or later, or Python 3 version 3.3. If one of these versions is not already installed, you must follow the link steps to install Python.
+
+To see if the pip package manager is already installed, enter the following command and press Enter.
+
+pip3 --version
+"bash: pip: command not found" indicate this Red Hat instance does not have pip installed. 
+
+Note 
+
+The primary distribution method for the AWS CLI on Linux, Windows, and macOS is pip. pip is a package manager for Python that provides you with an easy way to install, upgrade, and remove Python packages and their dependencies.
+
+In order to install the AWS CLI, download the installation file using the curl command. 
+
+The -o option specifies the file name that the downloaded package is written to. The options on the following example command write the downloaded file to the current directory with the local name awscliv2.zip.
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+Unzip the installer. 
+
+The following example command unzips the package and creates a directory named aws under the current directory.
+
+unzip awscliv2.zip
+Run the install program. 
+
+The installation command uses a file named install in the newly unzipped aws directory. By default, the files are all installed to /usr/local/aws-cli, and a symbolic link is created in /usr/local/bin. The command includes sudo to grant write permissions to those directories.
+
+sudo ./aws/install
+To verify that the AWS CLI is now working, enter the following command and press Enter.
+
+aws help
+The help command should display the help information for the AWS CLI.
+
+At the : prompt, enter q to exit.
+
+At the top of the page above these instructions, choose the Details dropdown menu, and then chose Show. A Credentials window opens.
+
+In the Credentials window next to AWS CLI, choose Show. This option displays AWS CLI credentials, including the aws_access_key_id and aws_secret_access_key. Copy and paste these two keys into a text editor to use in the next task of this lab. 
+
+Note
+
+There is no way for you to retrieve the secret access key that must be used when configuring the AWS CLI unless it was captured at the time that the keys were created. Fortunately, the secret access key was captured when it was created for this lab.
+
+ 
+
+Task 5: Configure the AWS CLI to connect to your AWS account
+Return to your terminal window. Enter the following configuration command for the AWS CLI and press Enter:
+
+aws configure
+At the prompts, enter the following information:
+
+For the AWS Access Key ID, leave blank and press Enter.
+
+For the AWS Secret Access Key, leave blank and press Enter.
+
+For the Default region name, enter us-west-2 and press Enter.
+
+For the Default output format, enter json and press Enter.
+
+After the information is entered, the appropriate credential files are created automatically.
+
+To open the credential file, enter the command sudo nano ~/.aws/credentials 
+
+Now paste the entire section copied from the Details window from task 4 into the file.
+
+For example:
+
+[default]
+aws_access_key_id=<your access key ID>
+aws_secret_access_key=<your access key>
+aws_session_token=<your session token>
+Press ctrl + O to save and press enter to save the file as the original file name.  
+
+Press ctrl + X to exit the file. 
+
+Next, you need to find your instance ID. At the top of your screen above these instructions, choose AWS to open the AWS Management Console in a new tab. 
+
+At the top of the console page in the Search for service search box, enter EC2 and choose EC2.
+
+In the Resources section, choose Instances (running).
+
+There is one instance called Command Host. Copy and paste the Instance ID for the Command Host into a text editor to use in the following step. 
+
+Return to your terminal, and enter the following command. Before you press Enter, replace <i-1234567890abcdefg> with the instance ID that you copied from the previous step. After you have adjusted the following command with your instance ID, press Enter. This command describes the instance attributes.
+
+aws ec2 describe-instance-attribute --instance-id i-1234567890abcdefg --attribute instanceType
+The output should look like the following. (The output should include your instance ID instead of <i-1234567890abcdefg>.)
+
+Output:
+
+{
+    "InstanceId": "i-1234567890abcdefg"
+    "InstanceType": {
+        "Value": "t3.micro"
+    }
+}
+ 
+
+Lab 11:
+
+Managing log files
+
+Review the lastlog and secure log outputs of the Linux machine
+
+Task 1: connect to ec2 instance
+
+Task 2: Review secure log files
+In this task, you use common Linux tools to review the secure log files and use the lastlog Linux application to review the previous logins.
+
+To validate that you are in the companyA home folder, enter pwd and press Enter.
+   If you are not in this folder, enter cd companyA and press Enter. 
+
+To use the secure log file as a test, enter sudo less /tmp/log/secure and press Enter. It should look like the following:
+    
+  >Usually, the secure log file is located at /var/log/secure.  This lab presents a sample secure log file at /tmp/log/secure.
+
+To exit the program, enter q
+
+To view the last login times of all the users on the machine, enter sudo lastlog and press Enter. It should look like the following:
+
+
