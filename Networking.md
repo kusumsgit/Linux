@@ -37,3 +37,6 @@ E.g 192.168.32.1/32 ?
 192.168.0.0/24 ?
 192.168.0.0 - 192.168.10.255 (which means we can change the last IP in the range of 0-255)
 192.168.0.0
+
+Network: Cables, routers and servers connected with each other forms a network
+
