@@ -40,3 +40,4 @@ E.g 192.168.32.1/32 ?
 
 Network: Cables, routers and servers connected with each other forms a network
 Router: A networking device that forwards data packets between computer networks. They know where to send your packets on the internet.
+Switch: takes a packet and send it to and send it to the correct server/client on the network.
