@@ -8,7 +8,9 @@ Each IP address is divided between network ID and host ID how we divide it is de
 
 ### There are two mores classes D- Multicast and E - Experimental R&D
 
-|CIDR | IPV4 subnet Masks|
+
+| CIDR | IPV4 subnet Masks|
+
 |/32 Mask = 2^0 IPs =1|
 |/31 Mask = 2^1 IPs =2|
 /30 Mask = 2^2 IPs =4
