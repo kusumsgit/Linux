@@ -39,4 +39,4 @@ E.g 192.168.32.1/32 ?
 192.168.0.0
 
 Network: Cables, routers and servers connected with each other forms a network
-
+Router: A networking device that forwards data packets between computer networks. They know where to send your packets on the internet.
