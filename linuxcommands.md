@@ -31,7 +31,15 @@ The tar command accepts many options, such as:
  
 ### The ping command is one of the most used basic Linux commands for checking whether a network or a server is reachable. In addition, it is used to troubleshoot various connectivity issues.
 
+Here’s the general format:
 
+ping [option] [hostname_or_IP_address]
+
+For example, you want to know whether you can connect to Google and measure its response time:
+
+ping google.com
+  
+  
   
   
 
