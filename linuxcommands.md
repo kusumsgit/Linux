@@ -11,6 +11,18 @@ mkdir <dirname>
   vm editor: vm <filename> then press i to enter insert mode and :wq to save and exit and :q! to exit without saving your content.
   nano <filename> then ctrl x and write y and enter to exit out from nano.
   
+  
+### The tar command archives multiple files into a TAR file – a common Linux format similar to ZIP, with optional compression.
+
+Here’s the basic syntax:
+
+tar [options] [archive_file] [file or directory to be archived]
+
+For instance, you want to create a new TAR archive named newarchive.tar in the /home/user/Documents directory:
+
+tar -cvf newarchive.tar /home/user/Documents
+
+
  
   
   
