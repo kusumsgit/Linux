@@ -29,9 +29,9 @@ The tar command accepts many options, such as:
 -u archives and adds to an existing archive file.
   
  
-  
-  
-  
+### The ping command is one of the most used basic Linux commands for checking whether a network or a server is reachable. In addition, it is used to troubleshoot various connectivity issues.
+
+
   
   
 
