@@ -22,7 +22,12 @@ For instance, you want to create a new TAR archive named newarchive.tar in the /
 
 tar -cvf newarchive.tar /home/user/Documents
 
+The tar command accepts many options, such as:
 
+-x extracts a file.
+-t lists the content of a file.
+-u archives and adds to an existing archive file.
+  
  
   
   
